@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import globalIcon from "../assets/group.png";
 import chatIcon from "../assets/chat.png";
 import profileIcon from "../assets/profile.png";
-import logoutIcon from "../assets/Logout.png";
+import logoutIcon from "../assets/logout.png";
 
 const BottomComponent = () => {
   const { userId, friendId } = useParams();
