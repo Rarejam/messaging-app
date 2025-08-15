@@ -33,7 +33,21 @@ const Profile = () => {
   }, [userId, token]);
 
   if (loading) {
-    return <p style={{ padding: "20px" }}>Loading profile...</p>;
+    return (
+      <p
+        style={{
+          padding: "20px",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "24px",
+          color: "white",
+          alignItems: "center",
+        }}
+      >
+        Loading profile...
+      </p>
+    );
   }
 
   if (!profile) {
