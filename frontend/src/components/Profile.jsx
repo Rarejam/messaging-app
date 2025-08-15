@@ -9,11 +9,18 @@ const Profile = () => {
   const [inputUrl, setInputUrl] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const getUserProfile = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/api/profile/${userId}`
+          `https://messaging-app-backend-dht1.onrender.com/api/profile/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setProfile(data);
       } catch (error) {
@@ -23,7 +30,7 @@ const Profile = () => {
       }
     };
     getUserProfile();
-  }, [userId]);
+  }, [userId, token]);
 
   if (loading) {
     return <p style={{ padding: "20px" }}>Loading profile...</p>;
@@ -35,12 +42,25 @@ const Profile = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:4000/api/profile/${userId}`, {
-        inputUrl,
-        bio: "this is my bio",
-      });
+      await axios.post(
+        `https://messaging-app-backend-dht1.onrender.com/api/profile/${userId}`,
+        {
+          inputUrl,
+          // bio: "this is my bio",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const { data } = await axios.get(
-        `http://localhost:4000/api/profile/${userId}`
+        `https://messaging-app-backend-dht1.onrender.com/api/profile/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setProfile(data);
       setInputUrl("");
@@ -78,6 +98,7 @@ const Profile = () => {
                   flexDirection: "row",
                   backgroundColor: "transparent",
                 }}
+                className="profile-form"
               >
                 <input
                   type="text"
@@ -112,8 +133,10 @@ const Profile = () => {
               <h2 className="profile-name">{profile?.username}</h2>
               <p className="profile-status">Online</p>
               <p className="profile-description">
-                Passionate about coding, exploring new technologies, and
-                building creative projects with style.
+                {/* Passionate about coding, exploring new technologies, and
+                building creative projects with style. */}
+
+                {profile?.profile?.profileBio || "No bio yet."}
               </p>
             </div>
           </div>

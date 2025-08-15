@@ -7,6 +7,10 @@ import logoutIcon from "../assets/Logout.png";
 const BottomComponent = () => {
   const { userId, friendId } = useParams();
   console.log(userId, friendId);
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+  }
   return (
     <div className="bottom-component">
       <Link
@@ -72,6 +76,7 @@ const BottomComponent = () => {
         }}
       >
         <div
+          onClick={handleLogout}
           style={{
             backgroundImage: `url(${logoutIcon})`,
             backgroundRepeat: "no-repeat",

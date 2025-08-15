@@ -8,25 +8,33 @@ const Login = () => {
   const [login_password, setLogin_password] = useState("");
   const [bio, setBio] = useState("");
   const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = { login_email, login_password };
+    const formData = { login_email, login_password, bio };
     try {
+      setIsActive(true);
       //post login info
-      const res = await axios.post("http://localhost:4000/api/login", formData);
+      const res = await axios.post(
+        "https://messaging-app-backend-dht1.onrender.com/api/login",
+
+        formData,
+
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log(res.data);
       const userId = res.data.user.id;
 
-      //post bio info
-      if (bio) {
-        await axios.post(`http://localhost:4000/api/profile/${userId}`, {
-          bio,
-        });
-      }
+      // get token from succcessful login
+      //store token in localStorage
+      localStorage.setItem("token", res.data.token);
       navigate(`/home/${userId}`);
     } catch (error) {
       console.log(error);
       setErr(error.response?.data?.message);
+    } finally {
+      setIsActive(false);
     }
   };
   return (
@@ -34,7 +42,14 @@ const Login = () => {
       <div className="login-container">
         <form onSubmit={handleSubmit}>
           <div>Login</div>
-          <div>{err}</div>
+          <div
+            style={{
+              fontSize: "16px",
+              color: "red",
+            }}
+          >
+            {err}
+          </div>
           <div className="form-content">
             <label htmlFor="email">Email:</label>
             <input
@@ -78,6 +93,7 @@ const Login = () => {
               marginBottom: "10px",
               height: "8vh",
             }}
+            disabled={isActive}
           >
             submit
           </button>

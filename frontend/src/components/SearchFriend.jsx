@@ -7,12 +7,23 @@ const SearchFriend = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchUser, setSearchUser] = useState(null);
   const [error, setError] = useState("");
+
+  const token = localStorage.getItem("token");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/api/friends", {
-        searchValue,
-      });
+      const res = await axios.post(
+        "https://messaging-app-backend-dht1.onrender.com/api/friends",
+        {
+          searchValue,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(res.data);
       setSearchUser(res.data);
     } catch (err) {

@@ -34,6 +34,7 @@ form {
   border: 4px solid;
   border-image: linear-gradient(90deg, #3b82f6, #9333ea, #ec4899) 1;
   box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+  animation: slideFadeIn 0.6s ease forwards;
 }
 .form-content {
   display: flex;
@@ -196,6 +197,7 @@ button:hover {
   margin-bottom: 10px;
   gap: 8px;
   color: white;
+  animation: slideFadeIn 0.6s ease forwards;
 }
 
 .message.incoming {
@@ -437,4 +439,247 @@ button:hover {
 .friend-status {
   font-size: 12px;
   color: #94a3b8;
+}
+
+/* ===== Responsive Chat & Search Inputs ===== */
+
+/* Tablets and small laptops */
+@media (max-width: 1024px) {
+  .group-container {
+    width: 80%;
+  }
+
+  .form {
+    min-width: unset;
+    width: 90%;
+  }
+
+  .form > input {
+    width: 70%;
+  }
+
+  .friends-search-form {
+    min-width: unset;
+    width: 90%;
+  }
+}
+
+/* Tablets and large phones */
+@media (max-width: 768px) {
+  .group-container {
+    width: 95%;
+  }
+
+  .group-chatbox {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .form {
+    flex-direction: column;
+    gap: 0.5rem;
+    height: auto;
+    width: 100%;
+  }
+
+  .form > input {
+    width: 100%;
+  }
+
+  .form > button {
+    width: 100%;
+  }
+
+  .friends-search-form {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .friends-search-input {
+    width: 100%;
+  }
+
+  .message-body {
+    max-width: 80%;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .group-chatbox {
+    padding: 0.25rem;
+  }
+  .group-chatbox > form {
+    min-width: 100%;
+    margin-bottom: 15px;
+  }
+  .group-btn {
+    width: 50%;
+  }
+  .form > input,
+  .friends-search-input {
+    font-size: 14px;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .form > button,
+  .friends-search-form > button {
+    font-size: 14px;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .message-body {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    max-width: 90%;
+  }
+
+  .sender {
+    font-size: 0.7rem;
+  }
+
+  .time {
+    font-size: 0.6rem;
+  }
+
+  .profile-group-pic {
+    width: 28px;
+    height: 28px;
+  }
+}
+/* ===== Responsive Profile Form & Search Inputs ===== */
+
+/* Tablets and small laptops */
+@media (max-width: 1024px) {
+  .profile-form {
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 80%;
+  }
+
+  .profile-form input {
+    width: 60%;
+  }
+
+  .profile-form button {
+    width: auto;
+    padding: 0.5rem 1rem;
+  }
+
+  .friends-search-form {
+    width: 80%;
+  }
+
+  .friends-search-input {
+    width: 70%;
+  }
+
+  .friends-search-form button {
+    width: auto;
+  }
+}
+
+/* Tablets and large phones */
+@media (max-width: 768px) {
+  .profile-form {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .profile-form input {
+    width: 100%;
+  }
+
+  .profile-form button {
+    width: 100%;
+  }
+
+  .friends-search-form {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .friends-search-input {
+    width: 100%;
+  }
+
+  .friends-search-form button {
+    width: 100%;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  /* Profile update form */
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .profile-form input {
+    width: 100%;
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+
+  .profile-form button {
+    width: 100%;
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+
+  /* Friends search form */
+  .form-container {
+    width: 100%;
+  }
+  .friends-search-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 0.5rem;
+  }
+
+  .group-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .group-header {
+    width: 100vw;
+  }
+
+  .friends-search-input {
+    width: 40%;
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+
+  .friends-search-form button {
+    width: 40%;
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+}
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.friends-search-form {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  animation: slideFadeIn 0.6s ease forwards; /* animate on load */
 }

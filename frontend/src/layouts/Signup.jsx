@@ -18,7 +18,12 @@ const Signup = () => {
       confirm_password,
     };
     try {
-      await axios.post("http://localhost:4000/api/signup", formData);
+      const { data } = await axios.post(
+        `https://messaging-app-backend-dht1.onrender.com/api/signup`,
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      setErr(data.message || "");
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -33,7 +38,7 @@ const Signup = () => {
         <div
           style={{
             color: "red",
-            fontSize: "20px",
+            fontSize: "16px",
           }}
         >
           {err}
@@ -66,6 +71,7 @@ const Signup = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="nothing less than 8-digits"
           />
         </div>
         <div className="form-content">

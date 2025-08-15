@@ -6,15 +6,23 @@ import { Link, Outlet, useParams } from "react-router-dom";
 const FriendsComponent = () => {
   const { friendId } = useParams();
   const [friendInfo, setFriendInfo] = useState("");
+
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const getFriend = async () => {
       const { data } = await axios.get(
-        `http://localhost:4000/api/friends/${friendId}`
+        `https://messaging-app-backend-dht1.onrender.com/api/friends/${friendId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setFriendInfo(data);
     };
     getFriend();
-  }, [friendId]);
+  }, [friendId, token]);
   return (
     <div className="top-component">
       <div className="group-container">

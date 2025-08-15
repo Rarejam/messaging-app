@@ -10,22 +10,34 @@ const FriendChat = () => {
   const [friendInfo, setFriendInfo] = useState("");
   const [newMessage, setNewMessage] = useState("");
 
+  // const token
+  const token = localStorage.getItem("token");
   //get friend info
   useEffect(() => {
     const getFriend = async () => {
       const { data } = await axios.get(
-        `http://localhost:4000/api/friends/${friendId}`
+        `https://messaging-app-backend-dht1.onrender.com/api/friends/${friendId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setFriendInfo(data);
     };
     getFriend();
-  }, [friendId]);
+  }, [friendId, token]);
   //get messages
   useEffect(() => {
     const getMessage = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/api/private-message/${userId}/${friendId}`
+          `https://messaging-app-backend-dht1.onrender.com/api/private-message/${userId}/${friendId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setMessages(data);
       } catch (err) {
@@ -33,14 +45,19 @@ const FriendChat = () => {
       }
     };
     getMessage();
-  }, [userId, friendId]);
+  }, [userId, friendId, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `http://localhost:4000/api/private-message/${userId}/${friendId}`,
-        { message: newMessage }
+        `https://messaging-app-backend-dht1.onrender.com/api/private-message/${userId}/${friendId}`,
+        { message: newMessage },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setMessages((prev) => [...prev, data]);
       setNewMessage("");

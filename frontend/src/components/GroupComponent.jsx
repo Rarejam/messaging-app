@@ -8,6 +8,9 @@ const GroupComponent = () => {
   const [newMessage, setNewMessage] = useState("");
   const { userId } = useParams();
 
+  //get token from local storage
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     // const interval = setInterval(async () => {
 
@@ -15,28 +18,51 @@ const GroupComponent = () => {
     // return () => clearInterval(interval);
     const getMessages = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/group");
+        //pass token with every request
+        const res = await axios.get(
+          "https://messaging-app-backend-dht1.onrender.com/api/group",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(res.data);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     getMessages();
-  }, []);
+  }, [token]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `http://localhost:4000/api/group/${userId}`,
+        `https://messaging-app-backend-dht1.onrender.com/api/group`,
         {
           newMessage,
           userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-      setMessages([...messages, res.data]);
-      await axios.get(`http://localhost:4000/api/profile/${userId}`);
-      // setProfile(data);
+      console.log(res.data);
+      setMessages((prev) => [...prev, res.data]);
+
+      // setMessages([...messages, res.data] || );
+      await axios.get(
+        `https://messaging-app-backend-dht1.onrender.com/api/group/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setNewMessage("");
     } catch (err) {
       console.log(err);
@@ -49,7 +75,17 @@ const GroupComponent = () => {
 
         <div className="group-content">
           {messages.length === 0 ? (
-            <p>No messages</p>
+            <p
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: "24px",
+                color: "white",
+              }}
+            >
+              No messages
+            </p>
           ) : (
             messages.map((message) => {
               const isOutgoing = message.messageId === parseInt(userId); // current user
@@ -75,7 +111,7 @@ const GroupComponent = () => {
                     <p className="sender">
                       {isOutgoing
                         ? "Me"
-                        : message.message.username || "unknown"}
+                        : message.message?.username || "unknown"}
                     </p>
                     <div className="text">{message.content}</div>
                     <span className="time">
@@ -88,19 +124,6 @@ const GroupComponent = () => {
           )}
         </div>
 
-        {/* <div className="message outgoing">
-            <img src={profileIcon} alt="User" className="profile-group-pic" />
-            <div className="message-body">
-              <p className="sender">Me</p>
-              <div className="text">
-                Hey Alice! This is my reply. and also dont forget to do the
-                dishes lo cuz if you dont your cooked lmao haha
-              </div>
-              <span className="time">4:57 PM</span>
-            </div>
-          </div>
-        </div> */}
-
         <div className="group-chatbox">
           <form className="form" onSubmit={handleSubmit}>
             <input
@@ -111,7 +134,9 @@ const GroupComponent = () => {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             />
-            <button type="submit">submit</button>
+            <button type="submit" className="group-btn">
+              submit
+            </button>
           </form>
         </div>
       </div>
