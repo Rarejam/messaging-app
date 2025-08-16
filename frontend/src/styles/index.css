@@ -190,7 +190,6 @@ button:hover {
   gap: 0.5rem;
   scroll-behavior: smooth;
 } */
-
 .message {
   display: flex;
   align-items: flex-start;
@@ -251,6 +250,9 @@ button:hover {
 
 .text {
   line-height: 1.4;
+  flex-wrap: wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .time {

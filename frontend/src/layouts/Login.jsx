@@ -9,6 +9,7 @@ const Login = () => {
   const [bio, setBio] = useState("");
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,12 +64,27 @@ const Login = () => {
           <div className="form-content">
             <label htmlFor="password">Password:</label>
             <input
-              type="password"
+              style={{ position: "relative" }}
+              type={showPassword == true ? "text" : "password"}
               name="password"
               id="password"
               value={login_password}
               onChange={(e) => setLogin_password(e.target.value)}
             />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "45px",
+                top: "42.5%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#aaa",
+                fontSize: "14px",
+              }}
+            >
+              {showPassword == true ? "hide" : "show"}
+            </span>
           </div>
 
           <div className="form-content">

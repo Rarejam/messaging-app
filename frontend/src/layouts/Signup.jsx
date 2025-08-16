@@ -9,6 +9,9 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirm_password] = useState("");
   const [err, setErr] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
@@ -66,18 +69,34 @@ const Signup = () => {
         <div className="form-content">
           <label htmlFor="password">Password:</label>
           <input
-            type="password"
+            style={{ position: "relative" }}
+            type={showPassword == true ? "text" : "password"}
             name="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="nothing less than 8-digits"
           />
+          <span
+            style={{
+              position: "absolute",
+              right: "45px",
+              top: "56%",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
+              color: "red",
+              fontSize: "14px",
+            }}
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword == true ? "hide" : "show"}
+          </span>
         </div>
         <div className="form-content">
           <label htmlFor="confirm_password">Confirm Password:</label>
           <input
-            type="password"
+            style={{ position: "relative" }}
+            type={showConfirmPassword == true ? "text" : "password"}
             name="confirm_password"
             id="confirm_password"
             value={confirm_password}
@@ -85,6 +104,23 @@ const Signup = () => {
               setConfirm_password(e.target.value);
             }}
           />
+          <span
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            style={{
+              position: "absolute",
+              right: "45px",
+              top: "72.3%",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
+              color: "red",
+              fontSize: "14px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {showConfirmPassword == true ? "hide" : "show"}
+          </span>
         </div>
         <button
           type="submit"
