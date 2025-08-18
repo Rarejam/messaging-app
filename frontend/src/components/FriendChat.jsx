@@ -86,9 +86,11 @@ const FriendChat = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              fontSize: "14px",
             }}
           >
-            This is the beginninng of your legendary with {friendInfo.username}
+            This is the beginninng of your legendary conversation with{" "}
+            {friendInfo.username}
           </p>
         ) : (
           messages.map((message) => {
