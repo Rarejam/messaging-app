@@ -54,6 +54,7 @@ const Signup = () => {
             name="username"
             id="username"
             value={username}
+            required
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
@@ -64,6 +65,7 @@ const Signup = () => {
             name="email"
             id="email"
             value={email}
+            required
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -77,6 +79,7 @@ const Signup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="nothing less than 8-digits"
+            required
           />
           <img
             src={eyeIcon}
@@ -106,6 +109,7 @@ const Signup = () => {
             onChange={(e) => {
               setConfirm_password(e.target.value);
             }}
+            required
           />
           <img
             src={eyeIcon}

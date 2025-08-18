@@ -60,6 +60,7 @@ const Login = () => {
               id="email"
               value={login_email}
               onChange={(e) => setLogin_email(e.target.value)}
+              required
             />
           </div>
           <div className="form-content">
@@ -71,6 +72,7 @@ const Login = () => {
               id="password"
               value={login_password}
               onChange={(e) => setLogin_password(e.target.value)}
+              required
             />
             <img
               src={eyeIcon}
