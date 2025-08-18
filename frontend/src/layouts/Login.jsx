@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import eyeIcon from "../assets/eye.png";
 
 const Login = () => {
   const [err, setErr] = useState("");
@@ -64,27 +65,28 @@ const Login = () => {
           <div className="form-content">
             <label htmlFor="password">Password:</label>
             <input
-              style={{ position: "relative" }}
+              style={{ position: "relative", paddingRight: "40px" }}
               type={showPassword == true ? "text" : "password"}
               name="password"
               id="password"
               value={login_password}
               onChange={(e) => setLogin_password(e.target.value)}
             />
-            <span
+            <img
+              src={eyeIcon}
+              alt="Toggle Password Visibility"
               onClick={() => setShowPassword(!showPassword)}
               style={{
                 position: "absolute",
-                right: "45px",
-                top: "42.5%",
+                right: "43px",
+                top: "43%",
                 transform: "translateY(-50%)",
+                width: "20px",
+                height: "20px",
                 cursor: "pointer",
-                color: "#aaa",
-                fontSize: "14px",
+                opacity: 0.7,
               }}
-            >
-              {showPassword == true ? "hide" : "show"}
-            </span>
+            />
           </div>
 
           <div className="form-content">

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import eyeIcon from "../assets/eye.png";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -77,25 +78,27 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="nothing less than 8-digits"
           />
-          <span
+          <img
+            src={eyeIcon}
+            alt="Toggle Password Visibility"
+            onClick={() => setShowPassword(!showPassword)}
             style={{
               position: "absolute",
-              right: "45px",
-              top: "56%",
+              right: "43px",
+              top: "54.5%",
               transform: "translateY(-50%)",
+              width: "20px",
+              height: "20px",
               cursor: "pointer",
-              color: "red",
-              fontSize: "14px",
+              opacity: 0.7,
             }}
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword == true ? "hide" : "show"}
-          </span>
+          />
         </div>
+
         <div className="form-content">
           <label htmlFor="confirm_password">Confirm Password:</label>
           <input
-            style={{ position: "relative" }}
+            style={{ position: "relative", paddingRight: "40px" }}
             type={showConfirmPassword == true ? "text" : "password"}
             name="confirm_password"
             id="confirm_password"
@@ -104,23 +107,21 @@ const Signup = () => {
               setConfirm_password(e.target.value);
             }}
           />
-          <span
+          <img
+            src={eyeIcon}
+            alt="Toggle Password Visibility"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             style={{
               position: "absolute",
-              right: "45px",
-              top: "72.3%",
+              right: "43px",
+              top: "71.5%",
               transform: "translateY(-50%)",
+              width: "20px",
+              height: "20px",
               cursor: "pointer",
-              color: "red",
-              fontSize: "14px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              opacity: 0.7,
             }}
-          >
-            {showConfirmPassword == true ? "hide" : "show"}
-          </span>
+          />
         </div>
         <button
           type="submit"
