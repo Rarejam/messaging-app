@@ -1,36 +1,32 @@
 import axios from "axios";
 import profileIcon from "../assets/profile.png";
+import circleIcon from "../assets/circle.gif"; // your loader gif
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const GroupComponent = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const { userId } = useParams();
 
-  //get token from local storage
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // const interval = setInterval(async () => {
-
-    // }, 3000);
-    // return () => clearInterval(interval);
     const getMessages = async () => {
       try {
-        //pass token with every request
+        setIsLoading(true);
         const res = await axios.get(
           "https://messaging-app-backend-dht1.onrender.com/api/group",
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(res.data);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     };
     getMessages();
@@ -39,6 +35,7 @@ const GroupComponent = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const res = await axios.post(
         `https://messaging-app-backend-dht1.onrender.com/api/group`,
         {
@@ -46,35 +43,35 @@ const GroupComponent = () => {
           userId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(res.data);
       setMessages((prev) => [...prev, res.data]);
-
-      // setMessages([...messages, res.data] || );
-      await axios.get(
-        `https://messaging-app-backend-dht1.onrender.com/api/group/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
       setNewMessage("");
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   }
+
   return (
     <div className="top-component">
       <div className="group-container">
         <div className="group-header">Global Chat</div>
 
         <div className="group-content">
-          {messages.length === 0 ? (
+          {isLoading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "2rem 0",
+              }}
+            >
+              <img src={circleIcon} alt="Loading..." width="60" height="60" />
+            </div>
+          ) : messages.length === 0 ? (
             <p
               style={{
                 display: "flex",
@@ -88,7 +85,7 @@ const GroupComponent = () => {
             </p>
           ) : (
             messages.map((message) => {
-              const isOutgoing = message.messageId === parseInt(userId); // current user
+              const isOutgoing = message.messageId === parseInt(userId);
               return (
                 <div
                   className={`message ${isOutgoing ? "outgoing" : "incoming"}`}
@@ -103,8 +100,6 @@ const GroupComponent = () => {
                       backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",
                     }}
-                    // src={profile?.profile?.profileImage}
-                    // alt="User"
                     className="profile-group-pic"
                   ></div>
                   <div className="message-body">

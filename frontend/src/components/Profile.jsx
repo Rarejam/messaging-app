@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-// import profileIcon from "../assets/profile.png";
+import circleGif from "../assets/circle.gif";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -34,7 +34,7 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <p
+      <div
         style={{
           padding: "20px",
           height: "100%",
@@ -45,8 +45,12 @@ const Profile = () => {
           alignItems: "center",
         }}
       >
-        Loading profile...
-      </p>
+        <img
+          src={circleGif}
+          alt="Loading..."
+          style={{ width: "60px", height: "60px" }}
+        />
+      </div>
     );
   }
 

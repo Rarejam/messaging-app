@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import profileIcon from "../assets/profile.png";
+import circleGif from "../assets/circle.gif";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -7,12 +9,14 @@ const SearchFriend = () => {
   const [searchUser, setSearchUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     async function allUsers() {
       try {
+        setLoading(true);
         const { data } = await axios.get(
           "https://messaging-app-backend-dht1.onrender.com/api/friends",
           {
@@ -24,6 +28,9 @@ const SearchFriend = () => {
         setUsers(data);
       } catch (err) {
         console.error(err);
+        setError("Failed to fetch users");
+      } finally {
+        setLoading(false);
       }
     }
     allUsers();
@@ -32,6 +39,7 @@ const SearchFriend = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const res = await axios.post(
         "https://messaging-app-backend-dht1.onrender.com/api/friends",
         { searchValue },
@@ -41,10 +49,13 @@ const SearchFriend = () => {
           },
         }
       );
-      console.log(res.data);
       setSearchUser(res.data);
+      setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
+      setSearchUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,13 +75,27 @@ const SearchFriend = () => {
         </form>
       </div>
 
-      <div>{error}</div>
+      {error && <div style={{ color: "red" }}>{error}</div>}
 
-      {searchUser ? (
+      {loading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <img
+            src={circleGif}
+            alt="Loading..."
+            style={{ width: "60px", height: "60px" }}
+          />
+        </div>
+      ) : searchUser ? (
         <Link to={`friend/${searchUser.id}`} key={searchUser.id}>
           <div className="friend-card">
             <img
-              src={searchUser.profile?.profileImage}
+              src={searchUser.profile?.profileImage || profileIcon}
               alt="Friend Avatar"
               className="friend-avatar"
             />
@@ -87,7 +112,7 @@ const SearchFriend = () => {
               <Link to={`friend/${user.id}`} key={user.id}>
                 <div className="friend-card">
                   <img
-                    src={user.profile?.profileImage}
+                    src={user.profile?.profileImage || profileIcon}
                     alt="Friend Avatar"
                     className="friend-avatar"
                   />
@@ -104,11 +129,12 @@ const SearchFriend = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                fontSize: "24px",
+                fontSize: "18px",
                 color: "white",
+                marginTop: "20px",
               }}
             >
-              No user
+              No users found
             </div>
           )}
         </div>
